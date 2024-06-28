@@ -13,7 +13,8 @@ public class BackgroudRepeater : MonoBehaviour
     [Tooltip("In Pixel per second")]
     [SerializeField] private int moveSpeed = 300;
 
-    
+    [SerializeField] private bool generateCollider = false;
+
     private List<Image> platforms;
     
     private RectTransform rectTransform;
@@ -120,6 +121,12 @@ public class BackgroudRepeater : MonoBehaviour
         imgCp.rectTransform.pivot = new Vector2(0.0f, 0.0f);
         imgCp.rectTransform.anchorMax = new Vector2(0.0f, 0.0f);
         imgCp.rectTransform.anchorMin = new Vector2(0.0f, 0.0f);
+
+        if(generateCollider){
+            BoxCollider2D collider = newGO.AddComponent<BoxCollider2D>();
+            collider.offset = new Vector2(imgCp.rectTransform.rect.center.x, imgCp.rectTransform.rect.center.y);
+            collider.size = new Vector2(imgCp.rectTransform.rect.width, imgCp.rectTransform.rect.height);
+        }
         
         return imgCp;
 
