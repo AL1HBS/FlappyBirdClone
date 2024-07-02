@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BackgroudRepeater : MonoBehaviour
 {
@@ -13,65 +12,63 @@ public class BackgroudRepeater : MonoBehaviour
     [Tooltip("In Pixel per second")]
     [SerializeField] private int moveSpeed = 300;
 
+    [SerializeField] private bool scaleToFullScreen = false;
     [SerializeField] private bool generateCollider = false;
 
-    private List<Image> platforms;
-    
-    private RectTransform rectTransform;
-
+    [SerializeField] private List<SpriteRenderer> generatedSprites;
 
     // Reference to the last platform created
-    private Image lastPlatform;
-    
+    private SpriteRenderer lastSpriteGenerated;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        if(rectTransform == null)
-        {
-            Debug.LogError("This script need recttransform component");
-            return;
-        }
-
-        platforms = new List<Image>();
-
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        lastPlatform = InsertNewPlatform(0);
+        if(generatedSprites.Count == 0)
+            lastSpriteGenerated = InsertNewPlatform();
+        else {
+            lastSpriteGenerated = generatedSprites[generatedSprites.Count -1];
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(platforms == null || rectTransform == null)
+        if(generatedSprites == null)
             return;
 
-
-        if(platforms.Count == 0)
+        if(generatedSprites.Count == 0)
             return;
 
-        MovePlatformByPixel(-moveSpeed);
+        MovePlatformByPixel(-1);
 
-        // Check if first platform is out of rectangle
-        float rightEdgeOfFirstPlatform = GetRightEdgeFromRect(platforms[0].rectTransform);
+        //Check if first platform is out of rectangle
+        Vector3 rightEdgeOfFirstPlatform = GetSpriteBottomRightPoint(generatedSprites[0]);
+        Vector3 bottomLeftPos = Camera.main.ViewportToWorldPoint(new Vector3(0,0,1));
 
-        if(rightEdgeOfFirstPlatform < 0)
+        if(rightEdgeOfFirstPlatform.x < bottomLeftPos.x)
         {
-            Destroy(platforms[0].gameObject);
-            platforms.Remove(platforms[0]);
+            Destroy(generatedSprites[0].gameObject);
+            generatedSprites.Remove(generatedSprites[0]);
         }
 
         // Fill the rest of rectangle with new platforms
-        float screenWidth = rectTransform.rect.width;
-        if(lastPlatform != null){
-            float nextPlatformPosition = GetRightEdgeFromRect(lastPlatform.rectTransform);
+        Vector3 bottomRightScreen = Camera.main.ViewportToWorldPoint(new Vector3(1,0,1));
+        if(lastSpriteGenerated != null){
+            
+            Vector3 lastPlatformRightEdge = GetSpriteBottomRightPoint(lastSpriteGenerated);
         
-            if(nextPlatformPosition < screenWidth)
+            if(lastPlatformRightEdge.x < bottomRightScreen.x)
             {
-                lastPlatform = InsertNewPlatform(nextPlatformPosition);
+                Vector3 nextPlatformPosition = lastPlatformRightEdge;
+                
+                lastSpriteGenerated = InsertNewPlatform();
+                nextPlatformPosition.x += lastSpriteGenerated.bounds.size.x / 2.0f;
+                lastSpriteGenerated.transform.position = new Vector3(nextPlatformPosition.x,0,nextPlatformPosition.z);;
             }
         }
 
@@ -79,56 +76,67 @@ public class BackgroudRepeater : MonoBehaviour
 
     private void MovePlatformByPixel(float pixel)
     {
-        platforms[0].rectTransform.anchoredPosition += new Vector2(pixel, 0) * Time.deltaTime;
+        generatedSprites[0].transform.position += new Vector3(pixel, 0) * Time.deltaTime;
 
         // Place the rest of element following the first element
-        if(platforms.Count > 1){
-            float nextPlatformPosition = GetRightEdgeFromRect(platforms[0].rectTransform);
-            for(int i=1; i<platforms.Count; i++)
-            {
-                platforms[i].rectTransform.anchoredPosition = new Vector2(nextPlatformPosition, 0);
-                nextPlatformPosition = GetRightEdgeFromRect(platforms[i].rectTransform);
+        if(generatedSprites.Count > 1){
+            Vector3 nextPlatformPosition = GetSpriteBottomRightPoint(generatedSprites[0]);
+            for(int i=1; i<generatedSprites.Count; i++)
+            {   
+                Vector2 spriteSize = generatedSprites[i].bounds.size;
+                generatedSprites[i].transform.position = 
+                    new Vector3(
+                        nextPlatformPosition.x + spriteSize.x / 2.0f,
+                        transform.position.y,
+                        nextPlatformPosition.z);       
+
+                nextPlatformPosition = GetSpriteBottomRightPoint(generatedSprites[i]);
             }    
         }
     }
 
-    private float GetRightEdgeFromRect(RectTransform rectTransform)
+    private Vector3 GetSpriteBottomRightPoint(SpriteRenderer spriteRenderer)
     {
-        return rectTransform.anchoredPosition.x + rectTransform.rect.width;
+        Vector2 spriteSize = spriteRenderer.bounds.size;
+        return spriteRenderer.transform.position + new Vector3(spriteSize.x / 2.0f, -spriteSize.y / 2.0f, 0);
+    }
+
+    private Vector3 GetNextPlatformPosition(SpriteRenderer spriteRenderer)
+    {
+        Vector3 pos = spriteRenderer.transform.position + new Vector3(spriteRenderer.bounds.size.x, 0, 0);
+        return pos;
     }
 
 
-    // Insert a new platform on a position
-    private Image InsertNewPlatform(float position)
+    // Insert a new sprite to stack
+    private SpriteRenderer InsertNewPlatform()
     {
-        Image createdImage = CreateNewPlatform(spriteTest, platforms.Count.ToString());
-        createdImage.rectTransform.anchoredPosition = new Vector2(position, 0);
-        platforms.Add(createdImage);
-
-        return createdImage;
-    }
-
-    // Create new platform / image using a Sprite
-    private Image CreateNewPlatform(Sprite sprite, string objectName  = "NewPlatform")
-    {
-        GameObject newGO = new GameObject(objectName);
+        GameObject newGO = new GameObject(generatedSprites.Count.ToString());
         newGO.transform.SetParent(transform,false);
 
-        Image imgCp = newGO.AddComponent<Image>();
-        imgCp.sprite = sprite;
-        imgCp.SetNativeSize();
+        SpriteRenderer sr = newGO.AddComponent<SpriteRenderer>();
+        sr.sprite = spriteTest;
+    
+        if(scaleToFullScreen)
+            ScaleSpriteToFullScreen(sr);
 
-        imgCp.rectTransform.pivot = new Vector2(0.0f, 0.0f);
-        imgCp.rectTransform.anchorMax = new Vector2(0.0f, 0.0f);
-        imgCp.rectTransform.anchorMin = new Vector2(0.0f, 0.0f);
+        if(generateCollider)
+            newGO.AddComponent<BoxCollider2D>();
 
-        if(generateCollider){
-            BoxCollider2D collider = newGO.AddComponent<BoxCollider2D>();
-            collider.offset = new Vector2(imgCp.rectTransform.rect.center.x, imgCp.rectTransform.rect.center.y);
-            collider.size = new Vector2(imgCp.rectTransform.rect.width, imgCp.rectTransform.rect.height);
-        }
+        generatedSprites.Add(sr);
+
+        return sr;
+    }
+
+    private void ScaleSpriteToFullScreen(SpriteRenderer sr)
+    {
+        float width = sr.sprite.bounds.size.x;
+        float height = sr.sprite.bounds.size.y;
         
-        return imgCp;
+        float worldScreenHeight = Camera.main.orthographicSize * 2.0f;
+        float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
 
+        sr.transform.localScale = 
+            new Vector3(worldScreenHeight / height, worldScreenHeight / height, 1);
     }
 }
