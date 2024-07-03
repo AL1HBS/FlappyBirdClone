@@ -10,7 +10,9 @@ public class BackgroudRepeater : MonoBehaviour
     [SerializeField] private Sprite spriteTest;
 
     [Tooltip("In Pixel per second")]
-    [SerializeField] private int moveSpeed = 300;
+
+    [Range(0.0f, 5.0f)]
+    [SerializeField] private float moveSpeed = 1;
 
     [SerializeField] private bool scaleToFullScreen = false;
     [SerializeField] private bool generateCollider = false;
@@ -19,11 +21,6 @@ public class BackgroudRepeater : MonoBehaviour
 
     // Reference to the last platform created
     private SpriteRenderer lastSpriteGenerated;
-
-    private void Awake()
-    {
-        
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +41,7 @@ public class BackgroudRepeater : MonoBehaviour
         if(generatedSprites.Count == 0)
             return;
 
-        MovePlatformByPixel(-1);
+        MovePlatformByPixel(-moveSpeed);
 
         //Check if first platform is out of rectangle
         Vector3 rightEdgeOfFirstPlatform = GetSpriteBottomRightPoint(generatedSprites[0]);
@@ -99,12 +96,6 @@ public class BackgroudRepeater : MonoBehaviour
     {
         Vector2 spriteSize = spriteRenderer.bounds.size;
         return spriteRenderer.transform.position + new Vector3(spriteSize.x / 2.0f, -spriteSize.y / 2.0f, 0);
-    }
-
-    private Vector3 GetNextPlatformPosition(SpriteRenderer spriteRenderer)
-    {
-        Vector3 pos = spriteRenderer.transform.position + new Vector3(spriteRenderer.bounds.size.x, 0, 0);
-        return pos;
     }
 
 
