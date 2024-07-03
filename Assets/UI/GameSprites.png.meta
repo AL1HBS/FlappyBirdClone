@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GameSprites_0
+      name: Brid_Blue_Low
       rect:
         serializedVersion: 2
         x: 1
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_1
+      name: Brid_Blue_Mid
       rect:
         serializedVersion: 2
         x: 37
@@ -178,7 +178,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_2
+      name: Brid_Blue_Up
       rect:
         serializedVersion: 2
         x: 73
@@ -199,7 +199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_3
+      name: Brid_Red_Low
       rect:
         serializedVersion: 2
         x: 110
@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_4
+      name: Brid_Red_Mid
       rect:
         serializedVersion: 2
         x: 146
@@ -241,7 +241,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_5
+      name: Brid_Red_Up
       rect:
         serializedVersion: 2
         x: 183
@@ -262,7 +262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_6
+      name: Brid_Yellow_Low
       rect:
         serializedVersion: 2
         x: 222
@@ -283,7 +283,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_7
+      name: Brid_Yellow_Mid
       rect:
         serializedVersion: 2
         x: 259
@@ -304,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_8
+      name: Brid_Yellow_Up
       rect:
         serializedVersion: 2
         x: 296
@@ -325,7 +325,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_9
+      name: Pipe_Green
       rect:
         serializedVersion: 2
         x: 388
@@ -346,7 +346,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_10
+      name: Pipe_Red
       rect:
         serializedVersion: 2
         x: 451
@@ -367,7 +367,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_11
+      name: 0
       rect:
         serializedVersion: 2
         x: 5
@@ -388,7 +388,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_12
+      name: 1
       rect:
         serializedVersion: 2
         x: 39
@@ -409,7 +409,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_13
+      name: 2
       rect:
         serializedVersion: 2
         x: 64
@@ -430,7 +430,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_14
+      name: 3
       rect:
         serializedVersion: 2
         x: 96
@@ -451,7 +451,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_15
+      name: 4
       rect:
         serializedVersion: 2
         x: 128
@@ -472,7 +472,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_16
+      name: 5
       rect:
         serializedVersion: 2
         x: 159
@@ -493,7 +493,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_17
+      name: 6
       rect:
         serializedVersion: 2
         x: 187
@@ -514,7 +514,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_18
+      name: 7
       rect:
         serializedVersion: 2
         x: 217
@@ -535,7 +535,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_19
+      name: 8
       rect:
         serializedVersion: 2
         x: 6
@@ -556,7 +556,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameSprites_20
+      name: 9
       rect:
         serializedVersion: 2
         x: 38
@@ -629,29 +629,29 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      GameSprites_0: -1110593482
-      GameSprites_1: 1698242839
-      GameSprites_10: 946784350
-      GameSprites_11: 427467229
-      GameSprites_12: -1566914700
-      GameSprites_13: 164419395
-      GameSprites_14: 1633779629
-      GameSprites_15: -740233740
-      GameSprites_16: -890295024
-      GameSprites_17: -78233527
-      GameSprites_18: -1608247747
-      GameSprites_19: -1592414572
-      GameSprites_2: 1225730300
-      GameSprites_20: -1255122410
+      0: 427467229
+      1: -1566914700
+      2: 164419395
+      3: 1633779629
+      4: -740233740
+      5: -890295024
+      6: -78233527
+      7: -1608247747
+      8: -1592414572
+      9: -1255122410
+      Brid_Blue_Low: -1110593482
+      Brid_Blue_Mid: 1698242839
+      Brid_Blue_Up: 1225730300
+      Brid_Red_Low: 89665100
+      Brid_Red_Mid: 615784327
+      Brid_Red_Up: 670352706
+      Brid_Yellow_Low: -1460487379
+      Brid_Yellow_Mid: 1293873644
+      Brid_Yellow_Up: -537970996
       GameSprites_21: 1785728474
       GameSprites_22: 786564376
-      GameSprites_3: 89665100
-      GameSprites_4: 615784327
-      GameSprites_5: 670352706
-      GameSprites_6: -1460487379
-      GameSprites_7: 1293873644
-      GameSprites_8: -537970996
-      GameSprites_9: 1896785390
+      Pipe_Green: 1896785390
+      Pipe_Red: 946784350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
