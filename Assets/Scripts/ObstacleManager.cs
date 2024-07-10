@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class ObstacleManager : MonoBehaviour
     private PillarController lastObstacleSpawned;
 
     public bool isRunning;
+
+    public Action<int> onBirdPassed;
 
     // Start is called before the first frame update
     void Start()
@@ -62,16 +65,16 @@ public class ObstacleManager : MonoBehaviour
             if(obstacleSpawnPoint.x - lastObstacleSpawned.transform.position.x > obstacleSpawnDistance)
             {
                 lastObstacleSpawned = SpawnObstacle(
-                    Random.Range(-1.0f,1.0f),
-                    Random.Range(obstacleMinSize,obstacleMaxSize)
+                    UnityEngine.Random.Range(-1.0f,1.0f),
+                    UnityEngine.Random.Range(obstacleMinSize,obstacleMaxSize)
                 );  
             }
         }
         else 
         {
             lastObstacleSpawned = SpawnObstacle(
-                Random.Range(-1.0f,1.0f),
-                Random.Range(obstacleMinSize,obstacleMaxSize)
+                UnityEngine.Random.Range(-1.0f,1.0f),
+                UnityEngine.Random.Range(obstacleMinSize,obstacleMaxSize)
             );
         }
 
@@ -86,6 +89,7 @@ public class ObstacleManager : MonoBehaviour
         PillarController newPillar = newGO.GetComponent<PillarController>();
         newPillar.gapPos = gapPos;
         newPillar.gapSize = gapSize;
+        newPillar.onBirdPassed = onBirdPassed;
 
         obstacleLists.Add(newPillar);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class PillarController : MonoBehaviour
 
     [SerializeField] private BoxCollider2D scoreTrigger;
 
+    public Action<int> onBirdPassed;
 
     // Start is called before the first frame update
     void Start()
@@ -51,5 +53,6 @@ public class PillarController : MonoBehaviour
     void OnTriggerExit2D(Collider2D col)
     {
         Debug.Log("Score!!!");
+        onBirdPassed?.Invoke(1);
     }
 }
