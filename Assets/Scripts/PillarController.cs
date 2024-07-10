@@ -48,7 +48,7 @@ public class PillarController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerExit2D(Collider2D col)
     {
         Debug.Log("Score!!!");
     }
