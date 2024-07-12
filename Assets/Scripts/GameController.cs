@@ -15,6 +15,11 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private NumberSprites scoreUI;
 
+    [SerializeField] AudioClip scoreSFX;
+    [SerializeField] AudioClip gameOverSFX;
+
+    [SerializeField] AudioSource audioSrc;
+
     private int totalScore = 0;
 
     // Start is called before the first frame update
@@ -31,6 +36,10 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         StopGame();
+        
+        audioSrc.clip = gameOverSFX;
+        audioSrc.Play();
+        
         isGameStarted = false;
     }
 
@@ -58,10 +67,11 @@ public class GameController : MonoBehaviour
         backGroundLevel.enabled = true;
         floorLevel.enabled = true;
         birdScript.isEnabled = true;
+        birdScript.Reset();
 
         totalScore = 0; 
         scoreUI.value = (short)totalScore;
-        
+
         isGameStarted = true;
         
     }
@@ -76,7 +86,11 @@ public class GameController : MonoBehaviour
 
     void OnBirdPassObstacle(int score)
     {
-        totalScore += score;
-        scoreUI.value = (short)totalScore;
+        if(isGameStarted){
+            totalScore += score;
+            audioSrc.clip = scoreSFX;
+            audioSrc.Play();
+            scoreUI.value = (short)totalScore;
+        }
     }
 }

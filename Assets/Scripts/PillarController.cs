@@ -52,7 +52,6 @@ public class PillarController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        Debug.Log("Score!!!");
         onBirdPassed?.Invoke(1);
     }
 }
