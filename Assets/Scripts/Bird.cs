@@ -92,8 +92,12 @@ public class Bird : MonoBehaviour
 
     public void Reset()
     {
-        // boxCollider.enabled = true;
+        boxCollider.enabled = true;
         // birdRigidBody.simulated = false;
+
+        Vector3 horizontalPos = Camera.main.ViewportToWorldPoint(new Vector3(.25f,.5f,1));
+        transform.position = new Vector3(horizontalPos.x, 0, transform.position.z);
+
     }
 
     private IEnumerator AnimateGameOver()

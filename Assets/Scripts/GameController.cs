@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
 
     private bool isGameStarted = false;
+    private bool isGameOverAnimation = false;
 
     [SerializeField] private ObstacleManager obstacleManager;
     [SerializeField] private BackgroudRepeater floorLevel;
@@ -28,6 +29,7 @@ public class GameController : MonoBehaviour
         StopGame();
 
         birdScript.OnBirdDead += GameOver;
+        birdScript.OnDeadAnimationFinished += OnGameOverAnimFinished;
         obstacleManager.onBirdPassed += OnBirdPassObstacle;
 
         scoreUI.value = 0;
@@ -40,6 +42,7 @@ public class GameController : MonoBehaviour
         audioSrc.clip = gameOverSFX;
         audioSrc.Play();
         
+        isGameOverAnimation = true;
         isGameStarted = false;
     }
 
@@ -47,17 +50,24 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if(!isGameStarted){
-                obstacleManager.Reset();
-                StartGame();
-            }
+        if(!isGameOverAnimation){
+            if(Input.GetMouseButtonDown(0))
+            {
+                if(!isGameStarted){
+                    obstacleManager.Reset();
+                    StartGame();
+                }
 
-            birdScript.FlyUp();
-            
+                birdScript.FlyUp();
+                
+            }
         }
         
+    }
+
+    void OnGameOverAnimFinished()
+    {
+        isGameOverAnimation = false;
     }
 
 
