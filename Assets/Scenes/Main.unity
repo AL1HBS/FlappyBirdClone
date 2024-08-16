@@ -679,7 +679,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -1061,7 +1061,6 @@ MonoBehaviour:
   obstacleSpawnDistance: 3
   obstacleMinSize: 1
   obstacleMaxSize: 2
-  isRunning: 0
 --- !u!4 &1097309449
 Transform:
   m_ObjectHideFlags: 0
