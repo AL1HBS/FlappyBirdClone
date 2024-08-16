@@ -38,7 +38,7 @@ public class ObstacleManager : MonoBehaviour
         }
     }
 
-    public Action<int> onBirdPassed;
+    public Action<int> onBirdPassed; // When the bird pass an obstacle this will be trigerred
 
     // Start is called before the first frame update
     void Start()
