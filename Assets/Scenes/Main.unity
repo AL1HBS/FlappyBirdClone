@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 4bb755838d33749ab9a62257f23c2332, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -679,7 +679,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -1054,7 +1054,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4549c1d4936415f808e3dfc3f00970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleTemplate: {fileID: 2932550863408862473, guid: 6d943b847ad58435f9f04c1a918448a2, type: 3}
+  obstacleTemplate:
+  - {fileID: -2617249425459706962, guid: f7dcb38260d7340a98465b0742c38f61, type: 3}
+  - {fileID: 2932550863408862473, guid: 6d943b847ad58435f9f04c1a918448a2, type: 3}
   obstacleMoveSpeed: 1
   obstacleSpawnDistance: 3
   obstacleMinSize: 1
@@ -1529,7 +1531,7 @@ Transform:
   m_GameObject: {fileID: 1548675247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.17364758, w: -0.98480785}
-  m_LocalPosition: {x: -2.22166, y: 0, z: 0}
+  m_LocalPosition: {x: -2.220982, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-[ExecuteAlways]
-public class PillarController : MonoBehaviour
+public class Pillar : MonoBehaviour
 {
 
     [SerializeField] private SpriteRenderer topPillar;
@@ -22,36 +20,54 @@ public class PillarController : MonoBehaviour
 
     public Action<int> onBirdPassed;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Init();
+    }
+
+    protected virtual void Init()
+    {
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        ObstacleUpdateBehacior();
+
         if(prev_gapSize != gapSize || prev_gapPos != gapPos)
         {
-            gapRect = new Rect(
-                new Vector2(0,gapPos), 
-                new Vector2(topPillar.bounds.size.x,gapSize));
-
-            scoreTrigger.size = gapRect.size;
-            scoreTrigger.offset = gapRect.position;
-
-            float topOffset = 1 * gapSize / 2.0f;
-            float bottomOffset = -1 * gapSize / 2.0f;
-            topPillar.transform.localPosition = new Vector2(0,gapPos + topOffset);
-            bottomPillar.transform.localPosition = new Vector2(0,gapPos + bottomOffset);
+            UpdateGap(); // ABSTRACTION
 
             prev_gapSize = gapSize;
             prev_gapPos = gapPos;
         }
     }
 
+    protected virtual void ObstacleUpdateBehacior()
+    {
+
+    }
+
+    // ABSTRACTION
+    private void UpdateGap()
+    {
+        gapRect = new Rect(
+            new Vector2(0,gapPos), 
+            new Vector2(topPillar.bounds.size.x,gapSize));
+
+        scoreTrigger.size = gapRect.size;
+        scoreTrigger.offset = gapRect.position;
+
+        float topOffset = 1 * gapSize / 2.0f;
+        float bottomOffset = -1 * gapSize / 2.0f;
+        topPillar.transform.localPosition = new Vector2(0,gapPos + topOffset);
+        bottomPillar.transform.localPosition = new Vector2(0,gapPos + bottomOffset);
+    }
+
     void OnTriggerExit2D(Collider2D col)
     {
         onBirdPassed?.Invoke(1);
     }
+
 }

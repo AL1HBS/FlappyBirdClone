@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class ObstacleManager : MonoBehaviour
     private Vector3 obstacleSpawnPoint;
     private Vector3 obstacleExitPoint;
 
-    [SerializeField] private PillarController obstacleTemplate;
+    [SerializeField] private Pillar[] obstacleTemplate;
 
     [SerializeField] private float obstacleMoveSpeed;
 
@@ -18,18 +19,31 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] private float obstacleMinSize;
     [SerializeField] private float obstacleMaxSize;
 
-    private List<PillarController> obstacleLists;
+    private List<Pillar> obstacleLists;
 
-    private PillarController lastObstacleSpawned;
+    private Pillar lastObstacleSpawned;
 
-    public bool isRunning;
+    private bool _isRunning = false;
+    
+    public bool isRunning {  // ENCAPSULATION
+        get { return _isRunning; }
+        set { 
+            if(obstacleLists != null) {
+                foreach(Pillar pillar in obstacleLists)
+                {
+                    pillar.enabled = value;
+                }
+            }
+            _isRunning = value; 
+        }
+    }
 
     public Action<int> onBirdPassed;
 
     // Start is called before the first frame update
     void Start()
     {
-        obstacleLists = new List<PillarController>();
+        obstacleLists = new List<Pillar>();
 
         obstacleExitPoint = Camera.main.ViewportToWorldPoint(new Vector3(-.25f,.5f,1));
         obstacleExitPoint.z = transform.position.z;
@@ -41,11 +55,11 @@ public class ObstacleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isRunning)
+        if(!_isRunning)
             return;
 
-        List<PillarController> obstacleToremove = new List<PillarController>();
-        foreach(PillarController pillar in obstacleLists)
+        List<Pillar> obstacleToremove = new List<Pillar>();
+        foreach(Pillar pillar in obstacleLists)
         {
             pillar.transform.position += new Vector3(-obstacleMoveSpeed * Time.deltaTime,0,0);
             if(pillar.transform.position.x < obstacleExitPoint.x)
@@ -54,7 +68,7 @@ public class ObstacleManager : MonoBehaviour
             }
         }
 
-        foreach(PillarController pillar in obstacleToremove)
+        foreach(Pillar pillar in obstacleToremove)
         {
             Destroy(pillar.gameObject);
             obstacleLists.Remove(pillar);
@@ -80,13 +94,15 @@ public class ObstacleManager : MonoBehaviour
 
     }
 
-    private PillarController SpawnObstacle(float gapPos, float gapSize)
+    private Pillar SpawnObstacle(float gapPos, float gapSize)
     {
-        GameObject newGO = Instantiate(obstacleTemplate.gameObject);
+        int obstacleIndex = UnityEngine.Random.Range(0, obstacleTemplate.Length);
+
+        GameObject newGO = Instantiate(obstacleTemplate[obstacleIndex].gameObject);
         newGO.transform.SetParent(transform, false);
         newGO.transform.position = obstacleSpawnPoint;
         
-        PillarController newPillar = newGO.GetComponent<PillarController>();
+        Pillar newPillar = newGO.GetComponent<Pillar>();
         newPillar.gapPos = gapPos;
         newPillar.gapSize = gapSize;
         newPillar.onBirdPassed = onBirdPassed;
@@ -98,7 +114,7 @@ public class ObstacleManager : MonoBehaviour
 
     private void ClearAllObstacle()
     {
-        foreach(PillarController obstacle in obstacleLists)
+        foreach(Pillar obstacle in obstacleLists)
         {
             Destroy(obstacle.gameObject);
         }
