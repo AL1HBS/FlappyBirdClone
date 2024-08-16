@@ -86,6 +86,7 @@ public class GameController : MonoBehaviour
         
     }
 
+    // Stop the game when start or when the bird died
     void StopGame()
     {
         obstacleManager.isRunning = false;
@@ -94,6 +95,7 @@ public class GameController : MonoBehaviour
         birdScript.isEnabled = false;
     }
 
+    // Score the game
     void OnBirdPassObstacle(int score)
     {
         if(isGameStarted){
