@@ -32,7 +32,7 @@ public class Bird : MonoBehaviour
                     birdRigidBody.bodyType = RigidbodyType2D.Dynamic;
                 }
                 else {
-                    birdRigidBody.velocity = Vector2.zero;
+                    birdRigidBody.linearVelocity = Vector2.zero;
                     birdRigidBody.bodyType = RigidbodyType2D.Static;
                 }
 
@@ -56,7 +56,7 @@ public class Bird : MonoBehaviour
         Vector3 horizontalPos = Camera.main.ViewportToWorldPoint(new Vector3(.25f,.5f,1));
         transform.position = new Vector3(horizontalPos.x, transform.position.y, transform.position.z);
 
-        targetRotation = birdRigidBody.velocity.y > 0 ? jumpAngle : fallAngle;
+        targetRotation = birdRigidBody.linearVelocity.y > 0 ? jumpAngle : fallAngle;
         transform.localEulerAngles = new Vector3(0,0,Mathf.LerpAngle(transform.localEulerAngles.z,targetRotation,0.2f));
         
     }
@@ -70,7 +70,7 @@ public class Bird : MonoBehaviour
 
         if (birdRigidBody != null)
         {
-            birdRigidBody.velocity = new Vector2(0,jumpelocity);
+            birdRigidBody.linearVelocity = new Vector2(0,jumpelocity);
         }
 
         wingsSFX?.Play();
