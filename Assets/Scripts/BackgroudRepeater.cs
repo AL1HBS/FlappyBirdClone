@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class BackgroudRepeater : MonoBehaviour
 {
-
-    [SerializeField] private Sprite spriteTest;
+    [SerializeField] private Sprite spriteToGenerate;
 
     [Tooltip("In Pixel per second")]
 
@@ -17,6 +17,8 @@ public class BackgroudRepeater : MonoBehaviour
     [SerializeField] private bool generateCollider = false;
 
     [SerializeField] private List<SpriteRenderer> generatedSprites;
+
+    public bool isMoving;
 
     // Reference to the last platform created
     private SpriteRenderer lastSpriteGenerated;
@@ -34,21 +36,23 @@ public class BackgroudRepeater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(generatedSprites == null)
+        if(generatedSprites == null && generatedSprites.Count == 0)
             return;
 
-        if(generatedSprites.Count == 0)
-            return;
-
-        MovePlatformByPixel(-moveSpeed);
-
+        if(isMoving) generatedSprites[0].transform.position += new Vector3(-moveSpeed, 0) * Time.deltaTime;    
+        ArrangeSpriteBasedOnFirstSprite();
+        
         //Check if first platform is out of rectangle
         Vector3 rightEdgeOfFirstPlatform = GetSpriteBottomRightPoint(generatedSprites[0]);
         Vector3 bottomLeftPos = Camera.main.ViewportToWorldPoint(new Vector3(0,0,1));
 
         if(rightEdgeOfFirstPlatform.x < bottomLeftPos.x)
         {
-            Destroy(generatedSprites[0].gameObject);
+            if(Application.isPlaying)
+                Destroy(generatedSprites[0].gameObject);
+            else 
+                DestroyImmediate(generatedSprites[0].gameObject);
+
             generatedSprites.Remove(generatedSprites[0]);
         }
 
@@ -70,11 +74,9 @@ public class BackgroudRepeater : MonoBehaviour
 
     }
 
-    private void MovePlatformByPixel(float pixel)
+    // Place the rest of element following the first element
+    private void ArrangeSpriteBasedOnFirstSprite()
     {
-        generatedSprites[0].transform.position += new Vector3(pixel, 0) * Time.deltaTime;
-
-        // Place the rest of element following the first element
         if(generatedSprites.Count > 1){
             Vector3 nextPlatformPosition = GetSpriteBottomRightPoint(generatedSprites[0]);
             for(int i=1; i<generatedSprites.Count; i++)
@@ -105,7 +107,7 @@ public class BackgroudRepeater : MonoBehaviour
         newGO.transform.SetParent(transform,false);
 
         SpriteRenderer sr = newGO.AddComponent<SpriteRenderer>();
-        sr.sprite = spriteTest;
+        sr.sprite = spriteToGenerate;
     
         if(scaleToFullScreen)
             ScaleSpriteToFullScreen(sr);

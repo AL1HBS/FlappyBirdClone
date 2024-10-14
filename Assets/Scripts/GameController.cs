@@ -74,8 +74,8 @@ public class GameController : MonoBehaviour
     void StartGame()
     {
         obstacleManager.isRunning = true;
-        backGroundLevel.enabled = true;
-        floorLevel.enabled = true;
+        backGroundLevel.isMoving = true;
+        floorLevel.isMoving = true;
         birdScript.isEnabled = true;
         birdScript.Reset();
 
@@ -90,8 +90,8 @@ public class GameController : MonoBehaviour
     void StopGame()
     {
         obstacleManager.isRunning = false;
-        backGroundLevel.enabled = false;
-        floorLevel.enabled = false;
+        backGroundLevel.isMoving = false;
+        floorLevel.isMoving = false;
         birdScript.isEnabled = false;
     }
 
